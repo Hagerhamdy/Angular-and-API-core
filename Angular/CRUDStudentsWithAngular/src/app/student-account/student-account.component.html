@@ -1,0 +1,55 @@
+<blockquote class="blockquote ml-5">
+    <h2>Students Account</h2>
+    <footer class="blockquote-footer">CRUD operation <i>Angular 9</i> with <i>asp.net core</i></footer>
+</blockquote>
+
+<div class="grid-table" style="margin: auto;">
+    <div class="thead">
+        <div class="tr">
+            <div class="td">Student No.</div>
+            <div class="td">Student Name</div>
+            <div class="td">Teacher Name</div>
+            <div class="td">Age</div>
+            <div class="td">
+                <button class="btn btn-outline-success" (click)="addStudentForm()">
+                    <i class="fa fa-plus"></i>New Student
+                </button>
+            </div>
+            <div class="td">
+                <span *ngIf="notification" class="elementToFadeInAndOut">
+                    <i class="fas fa-check-circle {{notification.class}}"></i>
+                    {{notification.message}}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tbody">
+        <form class="tr" [formGroup]="fg" *ngFor="let fg of studentForm.controls ; let i = index"
+                    (submit)="onSubmit(fg)">
+            <div class="td">
+                <input class="form-control" formControlName="studentNo">
+            </div>
+            <div class="td">
+                <input class="form-control" formControlName="studentName">
+            </div>
+            <div class="td">
+                <select class="form-control" formControlName="teacherID">
+                    <option value="0">Select</option>
+                    <option *ngFor="let item of allTeachers" value="{{item.teacherID}}">{{item.teacherName}}</option>
+                </select>
+            </div>
+            <div class="td">
+                <input class="form-control" formControlName="age">
+            </div>
+            <button class="btn" type="submit" [disabled]="fg.invalid"
+                    [ngClass]="(fg.get('studentAccountID').value==0?'btn-success':'btn-outline-dark')">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+               {{fg.get('studentAccountID').value==0?'Submit':'Update'}} 
+            </button>
+            <button class="btn btn-light ml-1" (click)="onDelete(fg.get('studentAccountID').value,i)">
+                <i class="far fa-trash-alt fa-lg text-danger"></i>
+            </button>
+        </form>
+    </div>
+</div>
